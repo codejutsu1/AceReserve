@@ -11,7 +11,7 @@
                         <p>AceReserve</p>
                     </NuxtLink>
                 </div>
-                <div class="flex justify-between w-1/2 items-center">
+                <div class="hidden md:flex justify-between w-1/2 items-center">
                     <nav>
                         <ul class="flex space-x-10 items-center">
                             <li>
@@ -41,6 +41,11 @@
                             Register
                         </NuxtLink>
                     </div>
+                </div>
+                <div class="md:hidden block">
+                    <button>
+                        <img src="~/assets/images/svg/menu.svg" alt="Menubar">
+                    </button>
                 </div>
             </div>
         </header>

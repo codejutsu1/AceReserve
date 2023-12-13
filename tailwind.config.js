@@ -10,6 +10,10 @@ export default {
   ],
   theme: {
     extend: {
+      backgroundImage : {
+        'hero' : "url('~/assets/images/hero(1).jpg')",
+        'flight' : "url('~/assets/images/flight(1).jpg')"
+      },
       fontFamily : {
         'poppins' : ['poppins', 'sans-serif']
       }
