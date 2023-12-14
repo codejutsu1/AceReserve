@@ -1,4 +1,7 @@
 <template>
+    <div v-if="!dataReady">
+        <p class="text-center text-green-600 font-semibold">Fetching results from Remote DWN...</p>
+    </div>
     <div v-if="dataReady">
         <section class="bg-[#121201]">
             <div class="py-16 w-5/6 mx-auto">
@@ -7,17 +10,17 @@
         </section>
 
         <section>
-            <div class="w-1/2 mx-auto">
+            <div class="w-full md:w-1/2 mx-auto">
                 <img :src="data['details']['image']" class="w-full" alt="A picture of this hotel">
             </div>
         </section>
 
         <section>
-            <div class="w-5/6 mx-auto py-16">
-                <div class="flex justify-between">
-                    <div class="w-1/2 rounded">
+            <div class="w-11/12 md:w-5/6 mx-auto py-16">
+                <div class="md:flex justify-between">
+                    <div class="w-full md:w-1/2 rounded">
                         <div>
-                            <div class="border h-[420px]">
+                            <div class="border md:h-[420px]">
                                 <Splide :options="{ type:'loop',autoplay:true,interval:2500,rewind:true}" aria-label="My Favorite Images">
                                     <SplideSlide v-for="(images, index) in data['details']['images']" :key="index">
                                         <img :src="images" class="w-full h-full" alt="hotel 1">
@@ -71,7 +74,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="w-1/3">
+                    <div class="w-full md:w-1/3 mt-10 md:mt-0">
                         <div class="py-4 px-3 border rounded-md">
                             <span class="text-center block text-lg font-semibold">Book rooms at Oriental Hotel and Suite</span>
                             <form @submit.prevent="submit" class="pt-10 space-y-6 font-medium">
@@ -108,7 +111,7 @@
                             </form>
                         </div>
 
-                        <div class="w-full mt-10" v-show="showConfirmation">
+                        <div class="w-full mt-10" v-show="showConfirmation" id="pay">
                             <div>
                                 <h1 class="text-2xl font-semibold mb-2">Confirm your booking Details</h1>
                                 <div class="p-4 border rounded-lg">
@@ -149,9 +152,12 @@
                                         Pay
                                     </button>
                                 </div>
-
-                                {{ bookingId }}
                             </div>
+                        </div>
+
+                        <div v-show="bookingId" id="bookingId">
+                            <button @click="copyRecord()" class="bg-black text-white mt-2 w-full py-2 mx-auto">Copy the Record ID of your VC</button>
+                            <NuxtLink to="/check-bookings" class="text-sm text-blue-600 underline mt-2">You can check your bookings with your VC Record Id</NuxtLink>
                         </div>
                     </div>
                 </div>
@@ -186,8 +192,12 @@ const bookingId = ref('')
 
 room.value = 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cm9vbXxlbnwwfHwwfHx8MA%3D%3D'
 const { id } = useRoute().params
-companyDID.value = "did:ion:EiD23C68csobyUtnDDRwyu8QjaqhCSMGAIgs_ID6ScE_WQ:eyJkZWx0YSI6eyJwYXRjaGVzIjpbeyJhY3Rpb24iOiJyZXBsYWNlIiwiZG9jdW1lbnQiOnsicHVibGljS2V5cyI6W3siaWQiOiJkd24tc2lnIiwicHVibGljS2V5SndrIjp7ImNydiI6IkVkMjU1MTkiLCJrdHkiOiJPS1AiLCJ4IjoiQmJtUFl3UDBNSzRSLUVYcUlxSGxnRENhV0ZmS1drWndPX29SU0szT1dZVSJ9LCJwdXJwb3NlcyI6WyJhdXRoZW50aWNhdGlvbiJdLCJ0eXBlIjoiSnNvbldlYktleTIwMjAifSx7ImlkIjoiZHduLWVuYyIsInB1YmxpY0tleUp3ayI6eyJjcnYiOiJzZWNwMjU2azEiLCJrdHkiOiJFQyIsIngiOiJIb3NtcDZxRll0a281VUM0dU9YQTEzcUVuVjBNVlljVFp0R05FSkpHYlpvIiwieSI6Im9qMmVSVzhJSUNKSmdjQnJZUUNmN3ZGNHp0eTJFbV9nOWx1TzVubDJMajgifSwicHVycG9zZXMiOlsia2V5QWdyZWVtZW50Il0sInR5cGUiOiJKc29uV2ViS2V5MjAyMCJ9XSwic2VydmljZXMiOlt7ImlkIjoiZHduIiwic2VydmljZUVuZHBvaW50Ijp7ImVuY3J5cHRpb25LZXlzIjpbIiNkd24tZW5jIl0sIm5vZGVzIjpbImh0dHBzOi8vZHduLnRiZGRldi5vcmcvZHduMyIsImh0dHBzOi8vZHduLnRiZGRldi5vcmcvZHduMCJdLCJzaWduaW5nS2V5cyI6WyIjZHduLXNpZyJdfSwidHlwZSI6IkRlY2VudHJhbGl6ZWRXZWJOb2RlIn1dfX1dLCJ1cGRhdGVDb21taXRtZW50IjoiRWlCYldkYl9xNldBbVoxQ2RaN2lRdU1odVRKMEZ0OWRjZ2twYWRfUmhqSFpxUSJ9LCJzdWZmaXhEYXRhIjp7ImRlbHRhSGFzaCI6IkVpQVFCSXBjUWdCbEcydnNYNFgxRmtvMFgtR1YxeW5kNEVMNV9qVmVDVmdxRnciLCJyZWNvdmVyeUNvbW1pdG1lbnQiOiJFaUF6S25hcE16TkxfWm1hNFFvUkE0VlNZUnY1T1hNNWVycThOZ3BMOXJRZFpnIn19"
+companyDID.value = "did:ion:EiDJbML7UODRf_T_gjJJxiHSo1K9HY5FBSk3tWWU8z9rdg:eyJkZWx0YSI6eyJwYXRjaGVzIjpbeyJhY3Rpb24iOiJyZXBsYWNlIiwiZG9jdW1lbnQiOnsicHVibGljS2V5cyI6W3siaWQiOiJkd24tc2lnIiwicHVibGljS2V5SndrIjp7ImNydiI6IkVkMjU1MTkiLCJrdHkiOiJPS1AiLCJ4IjoiYXhSTFVTZ25SeVJjX3VhWWs5RTFHWlNIZmItSVhsQUhjTlpEOXFSeE1POCJ9LCJwdXJwb3NlcyI6WyJhdXRoZW50aWNhdGlvbiJdLCJ0eXBlIjoiSnNvbldlYktleTIwMjAifSx7ImlkIjoiZHduLWVuYyIsInB1YmxpY0tleUp3ayI6eyJjcnYiOiJzZWNwMjU2azEiLCJrdHkiOiJFQyIsIngiOiJIQ1Y0Rmx2c0l1OUZXRy1hSnQ2cDlSRm9LV19kX3BNN1N6cXR2c25iZWFjIiwieSI6ImQ5aExqbVRfdDlBSTRpUkhibEFTRG5jWkZBYTYzcjFRN0JKRklsdFkycTQifSwicHVycG9zZXMiOlsia2V5QWdyZWVtZW50Il0sInR5cGUiOiJKc29uV2ViS2V5MjAyMCJ9XSwic2VydmljZXMiOlt7ImlkIjoiZHduIiwic2VydmljZUVuZHBvaW50Ijp7ImVuY3J5cHRpb25LZXlzIjpbIiNkd24tZW5jIl0sIm5vZGVzIjpbImh0dHBzOi8vZHduLnRiZGRldi5vcmcvZHduMSIsImh0dHBzOi8vZHduLnRiZGRldi5vcmcvZHduMiJdLCJzaWduaW5nS2V5cyI6WyIjZHduLXNpZyJdfSwidHlwZSI6IkRlY2VudHJhbGl6ZWRXZWJOb2RlIn1dfX1dLCJ1cGRhdGVDb21taXRtZW50IjoiRWlCRkFKb2ktdEcwUVRuNWtnbFpIQ25rNFJJWnc1NWd1RThoM0RkVnZrbk8zdyJ9LCJzdWZmaXhEYXRhIjp7ImRlbHRhSGFzaCI6IkVpRGZ0dndrakU5dlN0bTF2WkNnSV96SDNKNFYydVdiYVNMcDVrclk1YmFkelEiLCJyZWNvdmVyeUNvbW1pdG1lbnQiOiJFaUJfVFRVSFdpVVI4TXBwV2FBaEFsNmZFLXZTM2VPTXhDdVhOOE1tMGt3SjBRIn19"
 
+const copyRecord = async() => {
+    await navigator.clipboard.writeText(bookingId.value);
+    alert('Your record Id of your VC copied to clipboard');
+}
 
 const getRecords = async() => {
     try {
@@ -234,7 +244,7 @@ function checked() {
 
 
 //To get the total price, we write some conditions.
-function submit(){
+async function submit(){
     totalPrice.value = 0
     data.value['details']['roomTypes'].forEach(element => {
         checkedRooms.value.forEach((check, index) => {
@@ -243,11 +253,50 @@ function submit(){
     });
 
     showConfirmation.value = true
+
+    await navigateTo('#pay')
 }
 
 async function pay() {
     const confirmation = confirm('Are you sure you want to make payment for '+ userDID.value)
     if(confirmation){
+         //Installing Protocol
+
+         const configureProtocol = async () => {
+            // query the list of existing protocols on the DWN
+            const { protocols, status } = await web5.dwn.protocols.query({
+                message: {
+                    filter: {
+                        protocol: hotelReservationProtocol.protocol,
+                    }
+                }
+            });
+
+            if(status.code !== 200) {
+                alert('Error querying protocols');
+                console.error('Error querying protocols', status);
+                return;
+            }
+
+            // if the protocol already exists, we return
+            if(protocols.length > 0) {
+                console.log('Protocol already exists');
+            }
+
+            // configure protocol on local DWN
+            const { status: configureStatus, protocol } = await web5.dwn.protocols.configure({
+                message: {
+                    definition: hotelReservationProtocol,
+                }
+            });
+
+            protocol.send(userDID.value)
+
+            console.log('Protocol configured', configureStatus, protocol);
+        }
+
+        await configureProtocol()
+
         let currentDate = new Date().toJSON().slice(0, 10);  
 
         checkedRooms.value.forEach((element, index) => {
@@ -331,9 +380,11 @@ async function pay() {
                 }
                 else {
                     console.log("VC details sent to recipient DWN");
+                    alert("You have successfully booked a room and a VC has been sent to your remote DWN")
+                    await navigateTo('#bookingId')
                 }
 
-                const { status: sendStatusCompany } = await record.send(userDID.value);
+                const { status: sendStatusCompany } = await record.send(companyDID.value);
 
                 if (sendStatusCompany.code !== 202) {
                     console.log("Unable to send to target did:" + JSON.stringify(sendStatusCompany));

@@ -1,36 +1,36 @@
 <template>
     <div>
         <section class="bg-[#121201] ">
-            <div class="w-5/6 mx-auto py-8">
-                <div class="grid grid-cols-4 gap-x-10 justify-between">
+            <div class="w-11/12 md:w-5/6 mx-auto py-8">
+                <div class="md:grid grid-cols-4 gap-x-10 justify-between md:space-y-0 space-y-5">
                     <div>
-                        <span class="text-gray-200 mb-2 block">Location</span>
+                        <span class="text-gray-200 mb-2 block text-sm md:text-base">Location</span>
                         <div class="flex py-2 bg-[#D8D8D8]">
                             <img src="~/assets/images/svg/locator.svg" alt="Location SVG">
                             <input type="text" class="border-none outline-none focus:none bg-transparent px-4" placeholder="Lagos">
                         </div>
                     </div>
                     <div>
-                        <span class="text-gray-200 mb-2 block">Check-in</span>
+                        <span class="text-gray-200 mb-2 block text-sm md:text-base">Check-in</span>
                         <input type="date" class="border-none outline-none focus:none bg-[#D8D8D8] px-4 w-full  py-2">
                     </div>
                     <div>
-                        <span class="text-gray-200 mb-2 block">Check-out</span>
+                        <span class="text-gray-200 mb-2 block text-sm md:text-base">Check-out</span>
                         <input type="date" class="border-none outline-none focus:none bg-[#D8D8D8] w-full px-4 py-2">
                     </div>
-                    <div class="flex justify-center items-end">
-                        <button :disabled="loading" @click="search" class="w-4/5 py-2 bg-[#DB822F] text-gray-200 hover:bg-orange-400 duration-300">Search</button>
+                    <div class="flex justify-center items-end" v-show="myDID">
+                        <button :disabled="loading" @click="search" class="w-4/5 py-2 bg-[#DB822F] text-gray-200 hover:bg-orange-400 duration-300 text-sm md:text-base">Search</button>
                     </div>
                 </div>
             </div>
         </section>
 
         <section>
-            <div class="py-16 mx-auto w-5/6">
-                <h1 class="text-center font-semibold text-3xl mb-5" v-show="hotels">Lagos: 7 Hotels Found</h1>
-                <p class="text-center text-green-600 font-semibold" v-show="loading">Loading search results...</p>
-                <div class="flex justify-between gap-x-10">
-                    <div class="w-1/5">
+            <div class="py-10 md:py-16 mx-auto w-11/12 md:w-5/6">
+                <h1 class="text-center font-semibold md:text-3xl text-xl mb-5" v-show="hotels">Lagos: 7 Hotels Found</h1>
+                <p class="text-center text-green-600 font-semibold" v-show="loading">Fetching results from Remote DWN...</p>
+                <div class="md:flex justify-between gap-x-10">
+                    <div class="w-full md:w-1/5">
                         <div class="border border-b-0 rounded-lg">
                             <div class="border-b py-4 px-2">
                                 <h1 class="font-semibold">Filter By:</h1>
@@ -75,7 +75,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="border-b rounded-lg py-4 px-2">
+                            <div class="border-b rounded-lg py-4 px-2 hidden md:block">
                                 <span class="font-semibold">Facilities</span>
                                 <div class="mt-4 space-y-2 text-sm">
                                     <div class="flex items-center justify-between">
@@ -117,12 +117,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="w-4/5 space-y-10">
-                        <div v-show="hotels" v-for="(hotel, index) in hotels" :key="index" class="border-t shadow-lg rounded-lg p-4 flex justify-between h-[250px] space-x-5">
-                            <div class="w-1/3">
+                    <div class="w-full md:w-4/5 space-y-10">
+                        <div v-show="hotels" v-for="(hotel, index) in hotels" :key="index" class="border-t shadow-lg rounded-lg p-4 md:flex justify-between md:h-[250px] space-x-5">
+                            <div class="w-full md:w-1/3">
                                 <img :src="hotel['data']['details']['image']" alt="Hotel Image" class="w-full h-full object-fit rounded-lg">
                             </div>
-                            <div class="w-1/2">
+                            <div class="w-full md:w-1/2 mt-5 md:mt-0">
                                 <div class="h-2/5"> 
                                     <h1 class="text-2xl font-medium">{{ hotel['data']['details']['name'] }}</h1>
 
@@ -142,7 +142,7 @@
                                         <span class="font-semibold text-sm">Star:</span><span class="font-medium text-sm">{{ hotel['data']['details']['star'] }} Stars</span>
                                     </div>
                                 </div>
-                                <div class="h-1/5 flex flex-col pt-2">
+                                <div class="md:h-1/5 md:flex flex-col pt-2">
                                     <div class="flex space-x-1">
                                         <img src="~/assets/images/svg/star-1.svg" alt="Star Ratings">
                                         <img src="~/assets/images/svg/star-2.svg" alt="Star Ratings">
@@ -169,8 +169,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="w-1/5">
-                                <div class="flex h-1/5 items-end justify-end">
+                            <div class="md:w-1/5 w-full">
+                                <div class="flex h-1/5 items-end md:justify-end">
                                     <span class="text-2xl text-[#DB822F]">&#8358;80,000</span><span class="text-xs">/Per night</span>
                                 </div>
                                 <div class="flex h-4/5 items-end justify-end">
@@ -200,7 +200,6 @@ img.value = "https://media.istockphoto.com/id/1454662719/photo/african-american-
 
 const getRecords = async() => {
     loading.value = true
-    console.log(companyDID.value)
     try {
         const { records } = await web5.dwn.records.query({
             from: companyDID.value,
