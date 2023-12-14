@@ -19,7 +19,7 @@
                         <input type="date" class="border-none outline-none focus:none bg-[#D8D8D8] w-full px-4 py-2">
                     </div>
                     <div class="flex justify-center items-end">
-                        <button @click="search" class="w-4/5 py-2 bg-[#DB822F] text-gray-200 hover:bg-orange-400 duration-300">Search</button>
+                        <button :disabled="loading" @click="search" class="w-4/5 py-2 bg-[#DB822F] text-gray-200 hover:bg-orange-400 duration-300">Search</button>
                     </div>
                 </div>
             </div>
@@ -27,7 +27,8 @@
 
         <section>
             <div class="py-16 mx-auto w-5/6">
-                <h1 class="text-center font-semibold text-3xl mb-5">Lagos: 81 Hotels Found</h1>
+                <h1 class="text-center font-semibold text-3xl mb-5" v-show="hotels">Lagos: 7 Hotels Found</h1>
+                <p class="text-center text-green-600 font-semibold" v-show="loading">Loading search results...</p>
                 <div class="flex justify-between gap-x-10">
                     <div class="w-1/5">
                         <div class="border border-b-0 rounded-lg">
@@ -177,93 +178,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="border-t shadow-lg rounded-lg p-4 flex justify-between h-[220px] space-x-5">
-                            <div class="w-1/3">
-                                <img :src="img" alt="Hotel Image" class="w-full h-full object-fit rounded-lg">
-                            </div>
-                            <div class="w-2/5">
-                                <div class="h-4/5"> 
-                                    <h1 class="text-2xl font-medium">Oriental Hotels and Suite</h1>
-
-                                    <span class="text-sm">56 Taiwo Adeyanju close, Shomolu, Lagos state </span>
-                                </div>
-                                <div class="h-1/5 flex items-end">
-                                    <div class="flex space-x-1">
-                                        <img src="~/assets/images/svg/star-1.svg" alt="Star Ratings">
-                                        <img src="~/assets/images/svg/star-2.svg" alt="Star Ratings">
-                                        <img src="~/assets/images/svg/star-3.svg" alt="Star Ratings">
-                                        <img src="~/assets/images/svg/star-3.svg" alt="Star Ratings">
-                                        <img src="~/assets/images/svg/star-3.svg" alt="Star Ratings">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="w-1/3">
-                                <div class="flex h-1/5 items-end justify-end">
-                                    <span class="text-2xl text-[#DB822F]">&#8358;80,000</span><span class="text-xs">/Per night</span>
-                                </div>
-                                <div class="flex h-4/5 items-end justify-end">
-                                    <NuxtLink to="/hotel/hotel-info" class="bg-[#DB822F] px-6 py-3 text-white font-medium">Book Now</NuxtLink>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="border-t shadow-lg rounded-lg p-4 flex justify-between h-[220px] space-x-5">
-                            <div class="w-1/3">
-                                <img :src="img" alt="Hotel Image" class="w-full h-full object-fit rounded-lg">
-                            </div>
-                            <div class="w-2/5">
-                                <div class="h-4/5"> 
-                                    <h1 class="text-2xl font-medium">Sunshine Hotels and Suite</h1>
-
-                                    <span class="text-sm">56 Taiwo Adeyanju close, Shomolu, Lagos state </span>
-                                </div>
-                                <div class="h-1/5 flex items-end">
-                                    <div class="flex space-x-1">
-                                        <img src="~/assets/images/svg/star-1.svg" alt="Star Ratings">
-                                        <img src="~/assets/images/svg/star-1.svg" alt="Star Ratings">
-                                        <img src="~/assets/images/svg/star-1.svg" alt="Star Ratings">
-                                        <img src="~/assets/images/svg/star-1.svg" alt="Star Ratings">
-                                        <img src="~/assets/images/svg/star-2.svg" alt="Star Ratings">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="w-1/3">
-                                <div class="flex h-1/5 items-end justify-end">
-                                    <span class="text-2xl text-[#DB822F]">&#8358;20,000</span><span class="text-xs">/Per night</span>
-                                </div>
-                                <div class="flex h-4/5 items-end justify-end">
-                                    <button class="bg-[#DB822F] px-6 py-3 text-white font-medium">Book Now</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="border-t shadow-lg rounded-lg p-4 flex justify-between h-[220px] space-x-5">
-                            <div class="w-1/3">
-                                <img :src="img" alt="Hotel Image" class="w-full h-full object-fit rounded-lg">
-                            </div>
-                            <div class="w-2/5">
-                                <div class="h-4/5"> 
-                                    <h1 class="text-2xl font-medium">Ace Hotels</h1>
-
-                                    <span class="text-sm">56 Taiwo Adeyanju close, Shomolu, Lagos state </span>
-                                </div>
-                                <div class="h-1/5 flex items-end">
-                                    <div class="flex space-x-1">
-                                        <img src="~/assets/images/svg/star-1.svg" alt="Star Ratings">
-                                        <img src="~/assets/images/svg/star-1.svg" alt="Star Ratings">
-                                        <img src="~/assets/images/svg/star-1.svg" alt="Star Ratings">
-                                        <img src="~/assets/images/svg/star-3.svg" alt="Star Ratings">
-                                        <img src="~/assets/images/svg/star-3.svg" alt="Star Ratings">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="w-1/3">
-                                <div class="flex h-1/5 items-end justify-end">
-                                    <span class="text-2xl text-[#DB822F]">&#8358;1,000,000</span><span class="text-xs">/Per night</span>
-                                </div>
-                                <div class="flex h-4/5 items-end justify-end">
-                                    <button class="bg-[#DB822F] px-6 py-3 text-white font-medium">Book Now</button>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -279,11 +193,13 @@ const { $web5: web5, $myDID: myDID } = useNuxtApp();
 const img = ref('')
 const companyDID = ref('')
 const hotels = ref([])
+const loading = ref(false)
 
-companyDID.value = "did:ion:EiB1M-cOqpMOu8X5nitzaziTr1ZYi6S1du23aNhSg2ojBg:eyJkZWx0YSI6eyJwYXRjaGVzIjpbeyJhY3Rpb24iOiJyZXBsYWNlIiwiZG9jdW1lbnQiOnsicHVibGljS2V5cyI6W3siaWQiOiJkd24tc2lnIiwicHVibGljS2V5SndrIjp7ImNydiI6IkVkMjU1MTkiLCJrdHkiOiJPS1AiLCJ4IjoiLXZOZVk1ai1GMWYtcFNjM1VBbDIwNHl4UWZJS3VBSmpNYWtpNS1idlZUUSJ9LCJwdXJwb3NlcyI6WyJhdXRoZW50aWNhdGlvbiJdLCJ0eXBlIjoiSnNvbldlYktleTIwMjAifSx7ImlkIjoiZHduLWVuYyIsInB1YmxpY0tleUp3ayI6eyJjcnYiOiJzZWNwMjU2azEiLCJrdHkiOiJFQyIsIngiOiI2RW51OU5zUk9GQTFPMjFaTE5KRWlyZmxTOEEzUUJQaXctU3NDeHNJbXo0IiwieSI6InNLbkNMZnlYSWVyakNzY1FFQ2tmcVBtRjdBRl95eWRMUFlpcG00dU10ODAifSwicHVycG9zZXMiOlsia2V5QWdyZWVtZW50Il0sInR5cGUiOiJKc29uV2ViS2V5MjAyMCJ9XSwic2VydmljZXMiOlt7ImlkIjoiZHduIiwic2VydmljZUVuZHBvaW50Ijp7ImVuY3J5cHRpb25LZXlzIjpbIiNkd24tZW5jIl0sIm5vZGVzIjpbImh0dHBzOi8vZHduLnRiZGRldi5vcmcvZHduNiIsImh0dHBzOi8vZHduLnRiZGRldi5vcmcvZHduMSJdLCJzaWduaW5nS2V5cyI6WyIjZHduLXNpZyJdfSwidHlwZSI6IkRlY2VudHJhbGl6ZWRXZWJOb2RlIn1dfX1dLCJ1cGRhdGVDb21taXRtZW50IjoiRWlBUER6cVRpWDN1TktrRUluUjd0ZmJzRmdSYW42WmxsUUhTNkRmQnkzNndydyJ9LCJzdWZmaXhEYXRhIjp7ImRlbHRhSGFzaCI6IkVpQ2tGOE5OOHRmNEtHQnkyem94U1prRVlacldRcDlkenpJNUJrdXBTVmtoQlEiLCJyZWNvdmVyeUNvbW1pdG1lbnQiOiJFaUNQUWxzdldVOVpQeEE5TmFFbUdlcHhxbWU1cDNoY3pzUUhOTVE3Z1MwSGJ3In19"
+companyDID.value = "did:ion:EiDJbML7UODRf_T_gjJJxiHSo1K9HY5FBSk3tWWU8z9rdg:eyJkZWx0YSI6eyJwYXRjaGVzIjpbeyJhY3Rpb24iOiJyZXBsYWNlIiwiZG9jdW1lbnQiOnsicHVibGljS2V5cyI6W3siaWQiOiJkd24tc2lnIiwicHVibGljS2V5SndrIjp7ImNydiI6IkVkMjU1MTkiLCJrdHkiOiJPS1AiLCJ4IjoiYXhSTFVTZ25SeVJjX3VhWWs5RTFHWlNIZmItSVhsQUhjTlpEOXFSeE1POCJ9LCJwdXJwb3NlcyI6WyJhdXRoZW50aWNhdGlvbiJdLCJ0eXBlIjoiSnNvbldlYktleTIwMjAifSx7ImlkIjoiZHduLWVuYyIsInB1YmxpY0tleUp3ayI6eyJjcnYiOiJzZWNwMjU2azEiLCJrdHkiOiJFQyIsIngiOiJIQ1Y0Rmx2c0l1OUZXRy1hSnQ2cDlSRm9LV19kX3BNN1N6cXR2c25iZWFjIiwieSI6ImQ5aExqbVRfdDlBSTRpUkhibEFTRG5jWkZBYTYzcjFRN0JKRklsdFkycTQifSwicHVycG9zZXMiOlsia2V5QWdyZWVtZW50Il0sInR5cGUiOiJKc29uV2ViS2V5MjAyMCJ9XSwic2VydmljZXMiOlt7ImlkIjoiZHduIiwic2VydmljZUVuZHBvaW50Ijp7ImVuY3J5cHRpb25LZXlzIjpbIiNkd24tZW5jIl0sIm5vZGVzIjpbImh0dHBzOi8vZHduLnRiZGRldi5vcmcvZHduMSIsImh0dHBzOi8vZHduLnRiZGRldi5vcmcvZHduMiJdLCJzaWduaW5nS2V5cyI6WyIjZHduLXNpZyJdfSwidHlwZSI6IkRlY2VudHJhbGl6ZWRXZWJOb2RlIn1dfX1dLCJ1cGRhdGVDb21taXRtZW50IjoiRWlCRkFKb2ktdEcwUVRuNWtnbFpIQ25rNFJJWnc1NWd1RThoM0RkVnZrbk8zdyJ9LCJzdWZmaXhEYXRhIjp7ImRlbHRhSGFzaCI6IkVpRGZ0dndrakU5dlN0bTF2WkNnSV96SDNKNFYydVdiYVNMcDVrclk1YmFkelEiLCJyZWNvdmVyeUNvbW1pdG1lbnQiOiJFaUJfVFRVSFdpVVI4TXBwV2FBaEFsNmZFLXZTM2VPTXhDdVhOOE1tMGt3SjBRIn19"
 img.value = "https://media.istockphoto.com/id/1454662719/photo/african-american-tourists-with-suitcases-in-front-of-the-rented-apartment.webp?b=1&s=170667a&w=0&k=20&c=0gDMkmXBYiwcQ3Gc9loQ7--kaN38Wb9UQWWSSw8czqE="
 
 const getRecords = async() => {
+    loading.value = true
     console.log(companyDID.value)
     try {
         const { records } = await web5.dwn.records.query({
@@ -308,6 +224,7 @@ const getRecords = async() => {
 
 async function search() {
     await getRecords()
+    loading.value=false
 }
 
 function slugify(str) {
